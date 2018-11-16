@@ -1,0 +1,1 @@
+Figaro.require_keys *%i(volgaspot_api default utm)

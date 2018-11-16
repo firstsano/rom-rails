@@ -1,0 +1,11 @@
+Should contain next required settings
+   - volgaspot_api
+   - default
+   - utm
+
+
+Example of format:
+===========================================
+production:
+  volgaspot_api: http://production/api
+===========================================
