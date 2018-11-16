@@ -19,6 +19,7 @@ gem 'rom-rails'
 gem 'rom-sql'
 gem 'rom-repository'
 gem 'figaro'
+gem 'responders'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
