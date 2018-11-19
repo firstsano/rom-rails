@@ -3,10 +3,13 @@ require 'json'
 
 class ResponseHandler
   def call(response, dataset)
-    if %i(post put patch).include?(dataset.request_method)
-      JSON.parse(response.body, symbolize_names: true)
-    else
-      Array([JSON.parse(response.body, symbolize_names: true)]).flatten
-    end
+    parsed_response = parse_response response
+    raise ::Exceptions::RemoteServer::RequestUnsuccessful, $! unless parsed_response[:success]
+    parsed_response[:data]
+  end
+
+  def parse_response(response)
+    raise ::Exceptions::RemoteServer::RequestError, $! unless response&.body
+    JSON.parse(response.body, symbolize_names: true)
   end
 end

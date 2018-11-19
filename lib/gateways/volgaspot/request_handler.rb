@@ -19,6 +19,11 @@ class RequestHandler
     dataset.headers.each_with_object(request) do |(header, value), request|
       request[header.to_s] = value
     end
-    response = http.request(request)
+
+    begin
+      response = http.request(request)
+    rescue
+      raise ::Exceptions::RemoteServer::RequestError, $!
+    end
   end
 end
