@@ -21,6 +21,8 @@ gem 'rom-http'
 gem 'rom-repository'
 gem 'figaro'
 gem 'responders'
+gem 'knock'
+gem 'versionist'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
