@@ -32,4 +32,6 @@ module Rapi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
   end
+
+  module Entities; end
 end
