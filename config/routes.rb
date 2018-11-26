@@ -1,3 +1,14 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  api_version module: 'v1',
+              header: {
+                  name: 'Accept',
+                  value: "application/vnd.#{ENV['company']}.com; version=1"
+              },
+              default: true,
+              defaults: {format: :json} do
+
+    post '/users/sign-in' => 'user_session_token#create'
+
+    get '/me' => 'users#index'
+  end
 end
