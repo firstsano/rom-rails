@@ -1,5 +1,5 @@
 module Exceptions
-  class RecordNotFound < StandardError; end
+  class UserNotFound < StandardError; end
 
   module RemoteServer
     class RequestError < StandardError; end
