@@ -29,6 +29,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'capistrano-passenger'
   gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano-rvm'
   gem 'capistrano-touch-linked-files'
 end
 
