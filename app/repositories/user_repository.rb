@@ -4,7 +4,7 @@ class UserRepository < ROM::Repository::Root
   struct_namespace Rapi::Entities
 
   def by_id(id)
-    users.by_id(id).one
+    users.with_account_details.by_id(id).one
   end
 
   def all
