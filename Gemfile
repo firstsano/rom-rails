@@ -24,8 +24,13 @@ gem 'responders'
 gem 'knock'
 gem 'versionist'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+group :development do
+  gem 'capistrano', '~> 3.10', require: false
+  gem 'capistrano-bundler'
+  gem 'capistrano-passenger'
+  gem 'capistrano-rails', '~> 1.4', require: false
+  gem 'capistrano-touch-linked-files'
+end
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
