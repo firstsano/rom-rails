@@ -5,6 +5,8 @@ module V1
 
     before_action :authenticate_user_session
 
+    respond_to :json
+
     # def render(resource)
     #   super json: resource, **render_options
     # end

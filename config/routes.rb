@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     post '/users/sign-in' => 'user_session_token#create'
 
     get '/me' => 'users#index'
+
+    resources :tariffs, only: [:index, :create, :update, :destroy]
   end
 end
