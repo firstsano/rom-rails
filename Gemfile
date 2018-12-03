@@ -14,14 +14,15 @@ gem 'puma', '~> 3.11'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-gem 'pg'
-gem 'rom-rails'
-gem 'rom-sql'
-gem 'rom-http'
-gem 'rom-repository'
 gem 'figaro'
-gem 'responders'
 gem 'knock'
+gem 'pg'
+gem 'responders'
+gem 'rom-http'
+gem 'rom-rails'
+gem 'rom-repository'
+gem 'rom-sql'
+gem 'sanitize'
 gem 'versionist'
 
 group :development do
@@ -31,6 +32,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-touch-linked-files'
+  gem 'rubocop', '~> 0.50.0', require: false
 end
 
 # Reduces boot times through caching; required in config/boot.rb
