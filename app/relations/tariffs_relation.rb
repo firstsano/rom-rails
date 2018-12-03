@@ -1,12 +1,11 @@
 class TariffsRelation < ::ROM::Relation[:sql]
   gateway :utm
 
-  schema(:tariffs) do
-    attribute :id, Types::Serial
-    attribute :name, Types::Strict::String
-    attribute :create_date, Types::Int
-    attribute :change_date, Types::Int
-    attribute :comments, Types::Strict::String
+  schema(:tariffs, infer: true) do
+    associations do
+      has_many :services_tariffs
+      has_many :services, through: :services_tariffs, view: :active
+    end
   end
 
   dataset do
@@ -15,11 +14,5 @@ class TariffsRelation < ::ROM::Relation[:sql]
 
   def by_id(id)
     where(id: id)
-  end
-
-  def for_users(users)
-    where(id: users.map do |user|
-      user[:active_tariff_link][:tariff_id]
-    end)
   end
 end

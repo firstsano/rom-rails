@@ -9,5 +9,15 @@ module Volgaspot
     attribute :id
     attribute :name
     attribute :description
+
+    embedded :services, type: :array do
+      attribute :id
+      attribute :name, from: :service_name
+      attribute(:description, from: :comment) { |desc| Sanitize.fragment desc }
+
+      unwrap :parent do
+        attribute :type, from: :service_name
+      end
+    end
   end
 end

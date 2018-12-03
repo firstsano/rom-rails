@@ -11,7 +11,7 @@ module Volgaspot
     def find_by_user(id)
       tariff_link = volgaspot_tariff_links.by_user(id).one!
       tariff_id = tariff_link.dig :active_tariff_link, :tariff_id
-      tariff = tariffs.map_with(:tariffs_mapper).by_id(tariff_id).one
+      tariff = tariffs.by_id(tariff_id).one
       mapper.call([tariff]).first
     end
 
@@ -23,6 +23,8 @@ module Volgaspot
 
     def tariffs
       ROM.env.relations[:tariffs]
+             .map_with(:tariffs_mapper)
+             .combine(services: :parent)
     end
   end
 end

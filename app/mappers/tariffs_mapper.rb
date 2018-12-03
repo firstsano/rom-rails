@@ -7,5 +7,11 @@ class TariffsMapper < ROM::Mapper
 
   attribute :id
   attribute :name
-  attribute(:description, from: :comments) { |d| d.gsub /[\\\n]/, '' }
+  attribute(:description, from: :comments) { |desc| sanitize desc }
+  attribute :services
+
+  def sanitize(description)
+    without_html = Sanitize.fragment description
+    without_html.strip.gsub(/(\s)\s+/, '\1')
+  end
 end
