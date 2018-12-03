@@ -27,9 +27,14 @@ module Volgaspot
     end
 
     def by_id(id)
+      base.with_path(id.to_s)
+    end
+
+    private
+
+    def base
       with_base_path('users')
         .add_params(expand: 'account,account_details')
-        .with_path(id.to_s)
     end
   end
 end

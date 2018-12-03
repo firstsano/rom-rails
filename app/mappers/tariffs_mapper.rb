@@ -11,8 +11,8 @@ class TariffsMapper < ROM::Mapper
 
   embedded :services, type: :array do
     attribute :id
-    attribute :name, from: :service_name
-    attribute(:description, from: :comment) { |desc| Sanitize.fragment desc }
+    attribute(:name, from: :service_name) { |name| sanitize name }
+    attribute(:description, from: :comment) { |desc| sanitize desc }
 
     unwrap :parent do
       attribute :type, from: :service_name
@@ -20,7 +20,8 @@ class TariffsMapper < ROM::Mapper
   end
 
   def sanitize(description)
-    without_html = Sanitize.fragment description
-    without_html.strip.gsub(/(\s)\s+/, '\1')
+    Sanitize.fragment(description)
+      .strip
+      .gsub(/(\s)\s+/, '\1')
   end
 end

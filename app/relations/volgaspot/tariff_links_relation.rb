@@ -14,9 +14,14 @@ module Volgaspot
     end
 
     def by_user(id)
+      base.with_path(id.to_s)
+    end
+
+    private
+
+    def base
       with_base_path('users')
         .add_params(expand: 'active_tariff_link')
-        .with_path(id.to_s)
     end
   end
 end
