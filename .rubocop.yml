@@ -1,0 +1,29 @@
+AllCops:
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+    - 'db/**/*'
+    - 'bin/**/*'
+    - 'public/uploads/**/**/**/*'
+    - 'config/spring.rb'
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+
+Metrics/LineLength:
+  Max: 130
+
+Metrics/BlockLength:
+  Max: 100
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

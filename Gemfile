@@ -32,7 +32,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-touch-linked-files'
-  gem 'rubocop', '~> 0.50.0', require: false
+  gem 'rubocop', '~> 0.60.0', require: false
 end
 
 # Reduces boot times through caching; required in config/boot.rb

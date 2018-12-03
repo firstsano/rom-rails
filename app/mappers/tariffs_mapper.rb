@@ -8,7 +8,16 @@ class TariffsMapper < ROM::Mapper
   attribute :id
   attribute :name
   attribute(:description, from: :comments) { |desc| sanitize desc }
-  attribute :services
+
+  embedded :services, type: :array do
+    attribute :id
+    attribute :name, from: :service_name
+    attribute(:description, from: :comment) { |desc| Sanitize.fragment desc }
+
+    unwrap :parent do
+      attribute :type, from: :service_name
+    end
+  end
 
   def sanitize(description)
     without_html = Sanitize.fragment description
