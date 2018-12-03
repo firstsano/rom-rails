@@ -9,10 +9,6 @@ class ServicesRelation < ::ROM::Relation[:sql]
     end
   end
 
-  def with_parent_type
-
-  end
-
   def active
     where { is_deleted.is(0) }
   end

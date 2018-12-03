@@ -4,13 +4,11 @@ class Login < ROM::Commands::Update[:http]
   result :one
 
   def execute(login, password)
+    login_params = { login: login, password: password }
     relation
-        .dataset
-        .with_base_path('/customer-sessions/login')
-        .with_options(request_method: :put, params: {
-            login: login,
-            password: password
-        })
-        .response
+      .dataset
+      .with_base_path('/customer-sessions/login')
+      .with_options(request_method: :put, params: login_params)
+      .response
   end
 end

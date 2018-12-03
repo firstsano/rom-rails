@@ -2,6 +2,9 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'spec/fixtures/**/*'
+    - 'config/deploy'
+    - 'config/deploy/*'
+    - 'config/environments/*'
     - 'tmp/**/*'
     - 'db/**/*'
     - 'bin/**/*'
@@ -9,6 +12,11 @@ AllCops:
     - 'config/spring.rb'
   DisplayCopNames: true
   StyleGuideCopsOnly: false
+
+Layout/EmptyLines:
+  Exclude:
+      - 'config/environments/*'
+      - 'config/initializers/*'
 
 Metrics/LineLength:
   Max: 130

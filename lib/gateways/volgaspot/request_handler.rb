@@ -3,12 +3,11 @@ require 'dry/initializer'
 require 'uri'
 require 'net/http'
 
-
 class RequestHandler
   extend Dry::Initializer
 
   option :inflector, default: proc { Dry::Inflector.new }
-  option :base_headers, default: proc { {'Content-Type': 'application/json'} }
+  option :base_headers, default: proc { { 'Content-Type': 'application/json' } }
 
   def call(dataset)
     uri = dataset.uri
@@ -19,18 +18,18 @@ class RequestHandler
     request = request_klass.new uri.request_uri
 
     headers = base_headers.merge dataset.headers
-    headers.each_with_object(request) do |(header, value), request|
-      request[header.to_s] = value
+    headers.each_with_object(request) do |(header, value), req|
+      req[header.to_s] = value
     end
 
-    if %i(post put patch).include?(dataset.request_method)
+    if %i[post put patch].include?(dataset.request_method)
       request.body = dataset.params.to_json
     end
 
     begin
-      response = http.request(request)
-    rescue
-      raise ::Exceptions::RemoteServer::RequestError, $!
+      http.request(request)
+    rescue StandardError
+      raise ::Exceptions::RemoteServer::RequestError, $ERROR_INFO
     end
   end
 end

@@ -9,7 +9,7 @@ module Volgaspot
     unwrap :account do
       # TODO: change flag to message describing type
       # of block or add block_type attribute
-      attribute(:is_blocked) { |b| b > 0 }
+      attribute(:is_blocked, &:positive?)
       attribute :credit
       attribute(:balance) { |b| b.round(2) }
       attribute :is_internet_on, from: :int_status

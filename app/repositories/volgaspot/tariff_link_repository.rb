@@ -18,8 +18,8 @@ module Volgaspot
 
     def tariffs
       ROM.env.relations[:tariffs]
-             .map_with(:tariffs_mapper)
-             .combine(services: :parent)
+         .map_with(:tariffs_mapper)
+         .combine(services: :parent)
     end
   end
 end

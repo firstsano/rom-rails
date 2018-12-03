@@ -12,15 +12,15 @@ module Volgaspot
       attribute :status, Types::String
       attribute :account_id, Types::Int
       attribute :account_details, Types::Hash.schema(
-          work_days_left: Types::Strict::Int
+        work_days_left: Types::Strict::Int
       )
       attribute :account, Types::Hash.schema(
-          is_blocked: Types::Int,
-          credit: Types::Int,
-          balance: Types::Float,
-          int_status: Types::Form::Bool,
-          unlimited: Types::Form::Bool,
-          id: Types::Int,
+        is_blocked: Types::Int,
+        credit: Types::Int,
+        balance: Types::Float,
+        int_status: Types::Form::Bool,
+        unlimited: Types::Form::Bool,
+        id: Types::Int
       )
 
       primary_key :id
@@ -28,8 +28,8 @@ module Volgaspot
 
     def by_id(id)
       with_base_path('users')
-          .add_params(expand: 'account,account_details')
-          .with_path(id.to_s)
+        .add_params(expand: 'account,account_details')
+        .with_path(id.to_s)
     end
   end
 end

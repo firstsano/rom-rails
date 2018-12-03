@@ -21,7 +21,8 @@ class UserSession
   def self.from_token_request(request)
     login = request.POST.dig 'auth', 'login'
     raise Knock.not_found_exception_class_name unless login
-    self.new login: login
+
+    new login: login
   end
 
   # Authenticates user
@@ -32,15 +33,15 @@ class UserSession
 
   def to_token_payload
     {
-        user: {
-            id: id,
-            login: login
-        }
+      user: {
+        id: id,
+        login: login
+      }
     }
   end
 
   def self.from_token_payload(payload)
     credentials = payload['user'].symbolize_keys
-    self.new **credentials
+    new(**credentials)
   end
 end

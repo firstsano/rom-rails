@@ -4,7 +4,7 @@ set :domain, 'rcore.vgg.ru'
 
 role :web, fetch(:domain)
 role :app, fetch(:domain)
-role :db,  fetch(:domain), :primary => true
+role :db,  fetch(:domain), primary: true
 
 set :branch, 'master'
 set :deploy_to, '/opt/www/rapi-stage'
