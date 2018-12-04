@@ -7,4 +7,8 @@ class ServicesTariffsRelation < ::ROM::Relation[:sql]
       belongs_to :service, foreign_key: :service_id
     end
   end
+
+  dataset do
+    where(is_deleted: 0).qualify
+  end
 end

@@ -5,14 +5,17 @@ class TariffsMapper < ROM::Mapper
 
   reject_keys true
 
+  model Tariff
+
   attribute :id
   attribute :name
   attribute(:description, from: :comments) { |desc| sanitize desc }
 
   embedded :services, type: :array do
     attribute :id
-    attribute(:name, from: :service_name) { |name| sanitize name }
+    attribute :name, from: :service_name
     attribute(:description, from: :comment) { |desc| sanitize desc }
+    attribute :cost
 
     unwrap :parent do
       attribute :type, from: :service_name
@@ -21,7 +24,7 @@ class TariffsMapper < ROM::Mapper
 
   def sanitize(description)
     Sanitize.fragment(description)
-      .strip
-      .gsub(/(\s)\s+/, '\1')
+            .strip
+            .gsub(/(\s)\s+/, '\1')
   end
 end

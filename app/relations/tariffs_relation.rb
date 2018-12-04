@@ -4,7 +4,7 @@ class TariffsRelation < ::ROM::Relation[:sql]
   schema(:tariffs, infer: true) do
     associations do
       has_many :services_tariffs
-      has_many :services, through: :services_tariffs, view: :active
+      has_many :services, through: :services_tariffs
     end
   end
 

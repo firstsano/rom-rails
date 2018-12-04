@@ -2,7 +2,7 @@ module V1
   class TariffsController < BaseController
     def index
       tariffs = repo.find_by_user current_user_session.id
-      respond_with tariffs
+      respond_with TariffBlueprint.render(tariffs)
     end
 
     private
