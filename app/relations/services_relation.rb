@@ -10,9 +10,13 @@ class ServicesRelation < ::ROM::Relation[:sql]
   end
 
   dataset do
-    select(:cost)
-      .left_join(:periodic_services_data, id: :id)
+    left_join(:periodic_services_data, id: :id)
       .where(is_deleted: 0)
       .qualify
+      .select_append(:cost)
+  end
+
+  def by_id(required_id)
+    where { id =~ required_id }
   end
 end

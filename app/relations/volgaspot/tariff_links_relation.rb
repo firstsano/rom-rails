@@ -3,21 +3,26 @@ module Volgaspot
     gateway :volgaspot
 
     schema(:volgaspot_tariff_links) do
-      attribute :id, Types::Int
-      attribute :active_tariff_link, Types::Hash.schema(
-        tariff_id: Types::Strict::Int,
-        discount_period_id: Types::Strict::Int,
-        link_date: Types::Int
+      attribute :id, ::Types::Int
+      attribute :active_tariff_link, ::Types::Hash.schema(
+        tariff_id: ::Types::Strict::Int,
+        discount_period_id: ::Types::Strict::Int,
+        link_date: ::Types::Int
       )
+      attribute :services, ::Types::Hash.optional
 
       primary_key :id
     end
 
     def by_user(id)
-      base.with_path(id.to_s)
+      with_path(id.to_s)
     end
 
-    private
+    def with_services
+      expand_values = dataset.params[:expand] || []
+      values = [expand_values, 'services'].flatten.join(',')
+      add_params(expand: values)
+    end
 
     def base
       with_base_path('users')
