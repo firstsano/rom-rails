@@ -8,7 +8,7 @@ module V1
     private
 
     def repo
-      Volgaspot::TariffLinkRepository.new(ROM.env)
+      TariffRepository.new(ROM.env)
     end
   end
 end
