@@ -12,6 +12,8 @@ class TariffsMapper < ROM::Mapper
   attribute(:description, from: :comments) { |desc| sanitize desc }
 
   embedded :services, type: :array do
+    model Service
+
     attribute :id
     attribute :name, from: :service_name
     attribute(:description, from: :comment) { |desc| sanitize desc }
