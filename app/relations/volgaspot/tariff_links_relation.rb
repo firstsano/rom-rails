@@ -9,7 +9,7 @@ module Volgaspot
         discount_period_id: ::Types::Strict::Int,
         link_date: ::Types::Int
       )
-      attribute :services, ::Types::Hash.optional
+      attribute :services, ::Types::Constructor(Array, &:values)
 
       primary_key :id
     end
@@ -18,15 +18,9 @@ module Volgaspot
       with_path(id.to_s)
     end
 
-    def with_services
-      expand_values = dataset.params[:expand] || []
-      values = [expand_values, 'services'].flatten.join(',')
-      add_params(expand: values)
-    end
-
     def base
       with_base_path('users')
-        .add_params(expand: 'active_tariff_link')
+        .add_params(expand: 'active_tariff_link,services')
     end
   end
 end
