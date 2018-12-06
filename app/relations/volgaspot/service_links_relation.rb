@@ -4,7 +4,7 @@ module Volgaspot
 
     schema(:volgaspot_service_links) do
       attribute :id, ::Types::Int
-      attribute :services, ::Types::Constructor(Array) { |hash| hash.values }
+      attribute :services, ::Types::Constructor(Array, &:values)
 
       primary_key :id
     end
