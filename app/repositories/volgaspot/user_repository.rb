@@ -8,7 +8,7 @@ module Volgaspot
     auto_struct false
     struct_namespace Rapi::Entities
 
-    def find(id)
+    def by_id(id)
       volgaspot_users.by_id(id).one
     end
 
