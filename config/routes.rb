@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     get '/me' => 'users#index'
 
     resources :tariffs, only: %i[index create update destroy]
+
+    resources :services, only: %i[index create update destroy]
   end
 end

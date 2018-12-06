@@ -5,10 +5,6 @@ class ServicesRelation < ::ROM::Relation[:sql]
 
   schema(:services_data, infer: true, as: :services) do
     attribute :cost, ::Types::Float.meta(qualified: :periodic_services_data)
-
-    associations do
-      belongs_to :services, as: :parent, foreign_key: :parent_service_id
-    end
   end
 
   dataset do
