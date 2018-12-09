@@ -4,7 +4,7 @@ class TariffRepository < ROM::Repository::Root
   auto_struct false
   struct_namespace Rapi::Entities
 
-  def by_user(id)
+  def tariffs_by_user(id)
     tariff_link = find_tariff_link_by_user id
     service_ids = tariff_link.services.map(&:id)
     get_tariffs_with_services(tariff_link.tariff_id, service_ids).to_a
