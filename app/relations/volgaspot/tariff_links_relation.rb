@@ -5,6 +5,7 @@ module Volgaspot
     schema(:volgaspot_tariff_links) do
       attribute :id, ::Types::Int
       attribute :active_tariff_link, ::Types::Hash.schema(
+        id: ::Types::Strict::Int,
         tariff_id: ::Types::Strict::Int,
         discount_period_id: ::Types::Strict::Int,
         link_date: ::Types::Int
