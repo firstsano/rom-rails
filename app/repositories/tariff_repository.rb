@@ -8,16 +8,27 @@ class TariffRepository < ROM::Repository::Root
     tariff_link = find_tariff_link_by_user id
     return [] unless tariff_link.tariff
 
-    tariff = get_tariff_with_services tariff_link.tariff.id, tariff_link.services.map(&:id)
+    tariff = get_tariffs_with_services(tariff_link.tariff.id, tariff_link.services.map(&:id)).one
     combined_data = merge_tariff_data tariff_link, tariff
     combined_data.map { |s|  Volgaspot::Tariff.new(s) }
   end
 
+  def available_tariffs_for_user(id)
+    tariff_ids = get_available_tariffs_for_user(id).map { |el| el[:id] }
+    get_tariffs_with_services(tariff_ids).to_a
+  end
+
   private
 
-  def get_tariff_with_services(tariff_id, service_ids)
-    tariffs.by_id(tariff_id).map_with(:tariffs_mapper).combine(:services)
-           .node(:services) { |services| services.main.by_id(service_ids) }.one
+  def get_available_tariffs_for_user(id)
+    volgaspot_available_tariffs.base.by_user(id).to_a
+  end
+
+  def get_tariffs_with_services(tariff_id, service_ids = nil)
+    relation = tariffs.by_id(tariff_id).map_with(:tariffs_mapper)
+                              .combine(:services).node(:services, &:main)
+    relation.node(:services) { |services| services.by_id(service_ids) } if service_ids
+    relation
   end
 
   # TODO: refactor using mapper
@@ -46,6 +57,10 @@ class TariffRepository < ROM::Repository::Root
 
   def services
     ROM.env.relations[:services]
+  end
+
+  def volgaspot_available_tariffs
+    ROM.env.relations[:volgaspot_available_tariffs]
   end
 
   def volgaspot_tariff_links
