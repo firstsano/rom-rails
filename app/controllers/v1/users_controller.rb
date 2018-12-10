@@ -1,7 +1,7 @@
 module V1
   class UsersController < BaseController
     def index
-      user = repo.by_id current_user_session.id
+      user = repo.user_by_id current_user_session.id
       respond_with UserBlueprint.render(user)
     end
 

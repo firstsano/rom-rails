@@ -1,14 +1,16 @@
 class UserSession
   extend Dry::Initializer
 
-  attr_accessor :id, :login
+  attr_accessor :id, :login, :account
 
-  option :repo, default: proc { UserSessionRepository.new(ROM.env) }
+  option :session_repo, default: proc { UserSessionRepository.new(ROM.env) }
+  option :user_repo, default: proc { Volgaspot::UserRepository.new(ROM.env) }
 
   def initialize(login:, **options)
     super
-    @id = options[:id]
     @login = login
+    @id = options[:id]
+    @account = options[:account]
   end
 
   # When asking to generate token we first
@@ -22,20 +24,23 @@ class UserSession
     login = request.POST.dig 'auth', 'login'
     raise Knock.not_found_exception_class_name unless login
 
-    new login: login
+    new(login: login)
   end
 
   # Authenticates user
   def authenticate(password)
-    user_session_data = repo.login login: login, password: password
-    self.id = user_session_data.id
+    user_session_data = session_repo.login login: login, password: password
+    user_data = user_repo.user_by_id(user_session_data.id)
+    @id = user_session_data.id
+    @account = user_data.utm_account
   end
 
   def to_token_payload
     {
       user: {
         id: id,
-        login: login
+        login: login,
+        account: account
       }
     }
   end

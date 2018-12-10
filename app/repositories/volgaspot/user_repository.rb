@@ -8,8 +8,8 @@ module Volgaspot
     auto_struct false
     struct_namespace Rapi::Entities
 
-    def by_id(id)
-      volgaspot_users.by_id(id).one
+    def user_by_id(id)
+      volgaspot_users.by_id(id).map_to(OpenStruct).one
     end
 
     private
