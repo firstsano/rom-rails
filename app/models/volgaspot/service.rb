@@ -3,7 +3,7 @@ module Volgaspot
     attribute :link_ids, ::Types::Strict::Array.of(::Types::Int)
     attribute :service, ::Service
 
-    delegate :id, :name, :cost, :cost_per_day, :description, to: :service
+    delegate :id, :name, :type, :cost, :cost_per_day, :description, to: :service
 
     def quantity
       link_ids.count
