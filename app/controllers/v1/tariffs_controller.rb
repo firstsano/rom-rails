@@ -10,6 +10,10 @@ module V1
       respond_with TariffBlueprint.render(tariffs)
     end
 
+    def destroy
+      render json: [123]
+    end
+
     private
 
     def repo
