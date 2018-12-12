@@ -4,8 +4,7 @@ module Volgaspot
 
     schema(:volgaspot_promised_payments) do
       attribute :available, ::Types::Bool
-      attribute :last_promised_payment_date,
-        ::Types::Constructor(DateTime) { |timestamp| Time.at(timestamp).to_datetime }
+      attribute :last_promised_payment_date, ::Types::DateTime.optional
     end
 
     def by_user(id)
