@@ -4,7 +4,7 @@ class UserSession
   attr_accessor :id, :login, :account
 
   option :session_repo, default: proc { UserSessionRepository.new(ROM.env) }
-  option :user_repo, default: proc { Volgaspot::UserRepository.new(ROM.env) }
+  option :user_repo, default: proc { UserRepository.new(ROM.env) }
 
   def initialize(login:, **options)
     super

@@ -8,7 +8,7 @@ module V1
     private
 
     def repo
-      Volgaspot::UserRepository.new(ROM.env)
+      UserRepository.new(ROM.env)
     end
   end
 end
