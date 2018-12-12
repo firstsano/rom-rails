@@ -27,6 +27,10 @@ module Rapi
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # Set up locales
+    config.i18n.available_locales = [:en, :ru]
+    config.i18n.default_locale = :ru
+
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
