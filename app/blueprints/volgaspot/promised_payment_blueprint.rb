@@ -1,5 +1,5 @@
 module Volgaspot
-  class PromisedPaymentStatusBlueprint < Blueprinter::Base
+  class PromisedPaymentBlueprint < Blueprinter::Base
     field :available
     field :last_promised_payment_date,
       name: :last_promised_payment,

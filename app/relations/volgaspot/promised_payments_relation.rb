@@ -1,8 +1,8 @@
 module Volgaspot
-  class PromisedPaymentStatusesRelation < ::ROM::Relation[:http]
+  class PromisedPaymentsRelation < ::ROM::Relation[:http]
     gateway :volgaspot
 
-    schema(:volgaspot_promised_payment_statuses) do
+    schema(:volgaspot_promised_payments) do
       attribute :available, ::Types::Bool
       attribute :last_promised_payment_date,
         ::Types::Constructor(DateTime) { |timestamp| Time.at(timestamp).to_datetime }
