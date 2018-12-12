@@ -5,9 +5,13 @@ class BalanceOperationRepository < ROM::Repository::Root
   struct_namespace Rapi::Entities
 
   # TODO: to think if this can be refactored as mapper without first creating an object
-  def balance_operations_by_user(id)
-    required_interval = discount_intervals.by_account(id).page(1).to_a
-    to = required_interval.first[:date_interval].to_i
+  def balance_operations_by_user(id, page:, per_page:)
+    required_interval = discount_intervals
+      .by_account(id)
+      .page(page)
+      .per_page(per_page)
+      .to_a
+    to = required_interval.first[:date_interval].end_of_day.to_i
     from = required_interval.last[:date_interval].to_i
     load_balance_history id, from, to
   end

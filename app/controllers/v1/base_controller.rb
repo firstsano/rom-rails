@@ -21,12 +21,18 @@ module V1
     # def render_options
     #   { include: params[:include]&.underscore }
     # end
-    #
-    # private
-    #
-    # def get_filter_params(*attributes)
-    #   return Array.new(attributes.count) unless params[:filter]
-    #   params[:filter].values_at(*attributes)
-    # end
+
+    private
+
+    def get_pagination_params
+      @page, @per_page = get_filter_params(:page, :per_page)
+      @page ||= 1
+      @per_page ||= 10
+    end
+
+    def get_filter_params(*attributes)
+      return Array.new(attributes.count) unless params[:filter]
+      params[:filter].values_at(*attributes)
+    end
   end
 end
