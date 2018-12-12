@@ -4,6 +4,8 @@ module Volgaspot
 
     register_as :volgaspot_users_mapper
 
+    model OpenStruct
+
     unwrap :account do
       # TODO: change flag to message describing type
       # of block or add block_type attribute
