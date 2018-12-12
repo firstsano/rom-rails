@@ -23,6 +23,11 @@ class TariffRepository < ROM::Repository::Root
     response[:success] and response[:data]
   end
 
+  def link_tariff_for_user(id, tariff_id)
+    response = volgaspot_tariff_links.command(:create).call id, tariff_id
+    response[:success]
+  end
+
   private
 
   def get_available_tariffs_for_user(id)

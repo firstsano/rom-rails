@@ -10,11 +10,19 @@ module V1
       respond_with TariffBlueprint.render(tariffs)
     end
 
+    def create
+      return head :bad_request unless params[:tariff_id]
+      is_linked = repo.link_tariff_for_user current_user_session.id, params[:tariff_id]
+      return head :unprocessable_entity unless is_linked
+
+      head :created
+    end
+
     def destroy
       is_unlinked = repo.unlink_tariff_for_user current_user_session.id
       return head :unprocessable_entity unless is_unlinked
 
-      head :no_content
+      head :ok
     end
 
     private
