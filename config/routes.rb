@@ -18,5 +18,9 @@ Rails.application.routes.draw do
     resources :services, only: %i[index create update destroy]
 
     get '/balance-history' => 'balance_operations#index'
+
+    resources :promised_payments, only: %i[index create], path: '/promised-payments' do
+      get :status, action: :index, on: :collection
+    end
   end
 end
