@@ -11,7 +11,10 @@ module V1
     end
 
     def destroy
-      render json: [123]
+      is_unlinked = repo.unlink_tariff_for_user current_user_session.id
+      return head :unprocessable_entity unless is_unlinked
+
+      head :no_content
     end
 
     private

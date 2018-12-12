@@ -18,6 +18,11 @@ class TariffRepository < ROM::Repository::Root
     get_tariffs_with_services(tariff_ids).to_a
   end
 
+  def unlink_tariff_for_user(id)
+    response = volgaspot_tariff_links.command(:delete).call id
+    response[:success] and response[:data]
+  end
+
   private
 
   def get_available_tariffs_for_user(id)

@@ -6,8 +6,8 @@ module V1
     end
 
     def create
-      created = repo.create_promised_payment_for_user current_user_session.id
-      return head :unprocessable_entity unless created
+      is_created = repo.create_promised_payment_for_user current_user_session.id
+      return head :unprocessable_entity unless is_created
 
       head :created
     end
