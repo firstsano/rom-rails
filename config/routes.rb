@@ -16,5 +16,7 @@ Rails.application.routes.draw do
     end
 
     resources :services, only: %i[index create update destroy]
+
+    get '/balance-history' => 'balance_operations#index'
   end
 end
