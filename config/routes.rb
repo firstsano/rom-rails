@@ -11,11 +11,11 @@ Rails.application.routes.draw do
 
     get '/me' => 'users#index'
 
-    resources :tariffs, only: %i[index create update destroy] do
+    resources :tariffs, only: %i[index create destroy] do
       get :available, on: :collection
     end
 
-    resources :services, only: %i[index create update destroy]
+    resources :services, only: %i[index]
 
     get '/balance-history' => 'balance_operations#index'
 
