@@ -16,7 +16,8 @@ class PromisedPaymentRepository < ROM::Repository::Root
   end
 
   def create_promised_payment_for_user(id)
-    volgaspot_promised_payments.command(:create).call id
+    response = volgaspot_promised_payments.command(:create).call id
+    response[:success] and response[:data]
   end
 end
 

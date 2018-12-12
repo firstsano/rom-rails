@@ -1,19 +1,26 @@
 require 'json'
 
 class ResponseHandler
-  def call(response, _dataset)
-    parsed_response = parse_response response
-    raise ::Exceptions::RemoteServer::RequestUnsuccessful, $ERROR_INFO unless parsed_response[:success]
+  include ::Exceptions::RemoteServer
 
-    setup_response parsed_response[:data]
+  def call(response, dataset)
+    guard_from_invalid_request response
+    parsed_response = JSON.parse(response.body, symbolize_names: true)
+
+    if %i[post put patch].include?(dataset.request_method)
+      setup_response parsed_response
+    else
+      raise RequestUnsuccessful, $ERROR_INFO unless parsed_response[:success]
+      setup_response parsed_response[:data]
+    end
   end
 
   private
 
-  def parse_response(response)
-    raise ::Exceptions::RemoteServer::RequestError, $ERROR_INFO unless response&.body
-
-    JSON.parse(response.body, symbolize_names: true)
+  def guard_from_invalid_request(response)
+    not_found_code = Rack::Utils::SYMBOL_TO_STATUS_CODE[:not_found]
+    raise RequestNotFound, $ERROR_INFO if response.code.to_i == not_found_code
+    raise RequestError, $ERROR_INFO unless response&.body
   end
 
   # Process edge cases:

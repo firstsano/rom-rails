@@ -4,5 +4,6 @@ module Exceptions
   module RemoteServer
     class RequestError < StandardError; end
     class RequestUnsuccessful < StandardError; end
+    class RequestNotFound < StandardError; end
   end
 end

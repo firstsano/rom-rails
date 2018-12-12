@@ -5,6 +5,7 @@ require 'net/http'
 
 class RequestHandler
   extend Dry::Initializer
+  include ::Exceptions::RemoteServer
 
   option :inflector, default: proc { Dry::Inflector.new }
   option :base_headers, default: proc { { 'Content-Type': 'application/json' } }
@@ -29,7 +30,7 @@ class RequestHandler
     begin
       http.request(request)
     rescue StandardError
-      raise ::Exceptions::RemoteServer::RequestError, $ERROR_INFO
+      raise RequestError, $ERROR_INFO
     end
   end
 end

@@ -30,6 +30,8 @@ class UserSession
   # Authenticates user
   def authenticate(password)
     user_session_data = session_repo.login login: login, password: password
+    return false unless user_session_data
+
     user_data = user_repo.user_by_id(user_session_data.id)
     @id = user_session_data.id
     @account = user_data.utm_account
