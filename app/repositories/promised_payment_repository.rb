@@ -1,5 +1,5 @@
 class PromisedPaymentRepository < ROM::Repository::Root
-  root :volgaspot_promised_payments
+  root :promised_payments
 
   # Though it's not necessary for current version of
   # rom-http, the behaviour will change in future, and
@@ -8,15 +8,15 @@ class PromisedPaymentRepository < ROM::Repository::Root
   struct_namespace Rapi::Entities
 
   def status_by_user(id)
-    volgaspot_promised_payments
+    promised_payments
       .base
-      .map_with(:volgaspot_promised_payments_mapper)
+      .map_with(:promised_payments_mapper)
       .by_user(id)
       .one
   end
 
   def create_promised_payment_for_user(id)
-    response = volgaspot_promised_payments.command(:create).call id
+    response = promised_payments.command(:create).call id
     response[:success] and response[:data]
   end
 end

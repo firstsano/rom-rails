@@ -1,6 +1,6 @@
 module PromisedPayments
   class Create < ROM::Commands::Create[:http]
-    relation :volgaspot_promised_payments
+    relation :promised_payments
     register_as :create
     result :one
 

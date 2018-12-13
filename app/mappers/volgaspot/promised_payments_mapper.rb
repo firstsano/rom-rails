@@ -1,8 +1,8 @@
 module Volgaspot
   class PromisedPaymentsMapper < ROM::Mapper
-    relation :volgaspot_promised_payments
+    relation :promised_payments
 
-    register_as :volgaspot_promised_payments_mapper
+    register_as :promised_payments_mapper
 
     model OpenStruct
 
