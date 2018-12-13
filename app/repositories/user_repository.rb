@@ -1,5 +1,5 @@
 class UserRepository < ROM::Repository::Root
-  root :volgaspot_users
+  root :users
 
   # Though it's not necessary for current version of
   # rom-http, the behaviour will change in future, and
@@ -8,12 +8,12 @@ class UserRepository < ROM::Repository::Root
   struct_namespace Rapi::Entities
 
   def user_by_id(id)
-    volgaspot_users.by_id(id).one
+    users.by_id(id).one
   end
 
   private
 
-  def volgaspot_users
-    super.map_with(:volgaspot_users_mapper)
+  def users
+    super.map_with(:users_mapper)
   end
 end

@@ -1,8 +1,8 @@
 module Volgaspot
   class UsersMapper < ROM::Mapper
-    relation :volgaspot_users
+    relation :users
 
-    register_as :volgaspot_users_mapper
+    register_as :users_mapper
 
     model OpenStruct
 
