@@ -19,12 +19,12 @@ class TariffRepository < ROM::Repository::Root
   end
 
   def unlink_tariff_for_user(id)
-    response = volgaspot_tariff_links.command(:delete).call id
+    response = volgaspot_tariffs.command(:delete).call id
     response[:success] and response[:data]
   end
 
   def link_tariff_for_user(id, tariff_id)
-    response = volgaspot_tariff_links.command(:create).call id, tariff_id
+    response = volgaspot_tariffs.command(:create).call id, tariff_id
     response[:success]
   end
 
@@ -58,9 +58,9 @@ class TariffRepository < ROM::Repository::Root
   end
 
   def find_tariff_link_by_user(id)
-    tariff_link_tuple = volgaspot_tariff_links
+    tariff_link_tuple = volgaspot_tariffs
       .base.by_user(id)
-      .map_with(:volgaspot_tariff_links_mapper)
+      .map_with(:volgaspot_tariffs_mapper)
       .one!
     RecursiveOpenStruct.new tariff_link_tuple, recurse_over_arrays: true
   end
@@ -73,7 +73,7 @@ class TariffRepository < ROM::Repository::Root
     ROM.env.relations[:available_tariffs]
   end
 
-  def volgaspot_tariff_links
-    ROM.env.relations[:volgaspot_tariff_links]
+  def volgaspot_tariffs
+    ROM.env.relations[:volgaspot_tariffs]
   end
 end

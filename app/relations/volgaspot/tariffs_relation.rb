@@ -1,8 +1,8 @@
 module Volgaspot
-  class TariffLinksRelation < ::ROM::Relation[:http]
+  class TariffsRelation < ::ROM::Relation[:http]
     gateway :volgaspot
 
-    schema(:volgaspot_tariff_links) do
+    schema(:volgaspot_tariffs) do
       attribute :id, ::Types::Int
       attribute :active_tariff_link, ::Types::Hash.schema(
         id: ::Types::Strict::Int,

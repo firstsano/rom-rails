@@ -24,9 +24,9 @@ class ServiceRepository < ROM::Repository::Root
   private
 
   def find_tariff_link_by_user(id)
-    tariff_link_tuple = volgaspot_tariff_links
+    tariff_link_tuple = volgaspot_tariffs
                             .base.by_user(id)
-                            .map_with(:volgaspot_tariff_links_mapper)
+                            .map_with(:volgaspot_tariffs_mapper)
                             .one!
     RecursiveOpenStruct.new tariff_link_tuple, recurse_over_arrays: true
   end
@@ -35,7 +35,7 @@ class ServiceRepository < ROM::Repository::Root
     services.main.by_id(service_ids).map_with(:tariffs_mapper).to_a
   end
 
-  def volgaspot_tariff_links
-    ROM.env.relations[:volgaspot_tariff_links]
+  def volgaspot_tariffs
+    ROM.env.relations[:volgaspot_tariffs]
   end
 end
