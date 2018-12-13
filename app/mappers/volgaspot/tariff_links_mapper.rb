@@ -15,7 +15,6 @@ module Volgaspot
         attribute :id, from: :tariff_id
         attribute :link_date
       end
-
     end
 
     step do
@@ -52,6 +51,5 @@ module Volgaspot
         attribute :link_ids
       end
     end
-
   end
 end

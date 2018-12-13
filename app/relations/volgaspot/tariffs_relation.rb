@@ -9,8 +9,8 @@ module Volgaspot
         tariff_id: ::Types::Strict::Int,
         discount_period_id: ::Types::Strict::Int,
         link_date: ::Types::Int
-      )
-      attribute :services, ::Types::Constructor(Array, &:values)
+      ).default({})
+      attribute :services, ::Types::Constructor(Array, &:values).default([])
 
       primary_key :id
     end
