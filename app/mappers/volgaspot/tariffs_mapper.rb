@@ -1,5 +1,5 @@
 module Volgaspot
-  class TariffLinksMapper < ROM::Mapper
+  class TariffsMapper < ROM::Mapper
     relation :volgaspot_tariffs
 
     register_as :volgaspot_tariffs_mapper
