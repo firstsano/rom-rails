@@ -31,7 +31,7 @@ class TariffRepository < ROM::Repository::Root
   private
 
   def get_available_tariffs_for_user(id)
-    volgaspot_available_tariffs.base.by_user(id).to_a
+    available_tariffs.base.by_user(id).to_a
   end
 
   def get_tariffs_with_services(tariff_id, service_ids = nil)
@@ -69,8 +69,8 @@ class TariffRepository < ROM::Repository::Root
     ROM.env.relations[:services]
   end
 
-  def volgaspot_available_tariffs
-    ROM.env.relations[:volgaspot_available_tariffs]
+  def available_tariffs
+    ROM.env.relations[:available_tariffs]
   end
 
   def volgaspot_tariff_links
