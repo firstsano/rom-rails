@@ -10,9 +10,7 @@ module Volgaspot
         discount_period_id: ::Types::Strict::Int,
         link_date: ::Types::Int
       )
-      attribute :services, ::Types::Constructor(Array) do |services|
-        services.empty? ? [] : services.values
-      end
+      attribute :services, ::Types::Coercible::Hash.constructor(&:values)
 
       primary_key :id
     end
