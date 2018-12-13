@@ -11,6 +11,8 @@ class BalanceOperationRepository < ROM::Repository::Root
       .page(page)
       .per_page(per_page)
       .to_a
+    return [] if required_interval.empty?
+
     to = required_interval.first[:date_interval].end_of_day.to_i
     from = required_interval.last[:date_interval].to_i
     load_balance_history id, from, to

@@ -4,13 +4,15 @@ module Volgaspot
 
     schema(:volgaspot_tariffs) do
       attribute :id, ::Types::Int
-      attribute :active_tariff_link, ::Types::Hash.schema(
+      attribute :active_tariff_link, ::Types::Coercible::Hash.schema(
         id: ::Types::Strict::Int,
         tariff_id: ::Types::Strict::Int,
         discount_period_id: ::Types::Strict::Int,
         link_date: ::Types::Int
-      ).default({})
-      attribute :services, ::Types::Constructor(Array, &:values).default([])
+      )
+      attribute :services, ::Types::Constructor(Array) do |services|
+        services.empty? ? [] : services.values
+      end
 
       primary_key :id
     end

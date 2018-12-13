@@ -7,6 +7,8 @@ class ServiceRepository < ROM::Repository::Root
   # TODO: refactor using mapper
   def services_by_user(id)
     tariff_link = find_tariff_link_by_user id
+    return [] unless tariff_link
+
     service_ids = tariff_link.services.map(&:id)
     link_services = services.additional.by_id(service_ids).map_with(:services_mapper).to_a
     merged_hash = tariff_link.to_hash
@@ -23,12 +25,15 @@ class ServiceRepository < ROM::Repository::Root
 
   private
 
+  # TODO: find a way for mapper to skip empty values and call it here
   def find_tariff_link_by_user(id)
-    tariff_link_tuple = volgaspot_tariffs
-                            .base.by_user(id)
-                            .map_with(:volgaspot_tariffs_mapper)
-                            .one!
-    RecursiveOpenStruct.new tariff_link_tuple, recurse_over_arrays: true
+    raw_tuple = volgaspot_tariffs
+                    .base.by_user(id)
+                    .one
+    return false if raw_tuple[:services].empty?
+
+    tuple = volgaspot_tariffs.mappers[:volgaspot_tariffs_mapper].call([raw_tuple]).first
+    RecursiveOpenStruct.new tuple, recurse_over_arrays: true
   end
 
   def get_tariff_with_services(service_ids)
