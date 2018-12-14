@@ -12,15 +12,34 @@ Dir[Rails.root.join('spec/shared/*.rb')].each { |f| require f }
 
 require 'database_cleaner'
 
-def conn
-  ROM::SQL.gateway.connection
+def container
+  AppContainer.instance
+end
+
+def connection
+  container['persistence'].gateways[:utm].connection
+end
+
+def clean_strategy
+  target_databases = %w[
+    discount_transactions_all
+    services_data
+    payment_transactions
+    payment_methods
+    tariffs_services_link
+    tariffs
+  ]
+  [:truncation, { only: target_databases }]
 end
 
 def clean_db
-  DatabaseCleaner[:sequel, connection: conn].clean_with :truncation
+  DatabaseCleaner[:sequel, connection: connection].clean_with *clean_strategy
 end
 
 RSpec.configure do |config|
+  # Include helpers required for all cases
+  config.include(AppContainerHelper)
+
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
@@ -28,11 +47,8 @@ RSpec.configure do |config|
 
   # Setup database cleaner
   config.before(:suite) do
-    DatabaseCleaner[:sequel, connection: conn].strategy = :truncation
+    DatabaseCleaner[:sequel, connection: connection].strategy = *clean_strategy
     clean_db
   end
   config.before(:each) { clean_db }
-
-  # Include helpers required for all cases
-  config.include(AppContainerHelper)
 end
