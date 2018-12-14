@@ -1,4 +1,10 @@
 class TariffRepository < ROM::Repository::Root
+  include Import[
+    'persistence.relations.available_tariffs',
+    'persistence.relations.services',
+    'persistence.relations.volgaspot_tariffs'
+  ]
+
   root :tariffs
 
   auto_struct false
@@ -68,17 +74,5 @@ class TariffRepository < ROM::Repository::Root
 
     tuple = volgaspot_tariffs.mappers[:volgaspot_tariffs_mapper].call([raw_tuple]).first
     RecursiveOpenStruct.new tuple, recurse_over_arrays: true
-  end
-
-  def services
-    ROM.env.relations[:services]
-  end
-
-  def available_tariffs
-    ROM.env.relations[:available_tariffs]
-  end
-
-  def volgaspot_tariffs
-    ROM.env.relations[:volgaspot_tariffs]
   end
 end

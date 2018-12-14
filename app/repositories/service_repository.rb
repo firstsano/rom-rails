@@ -1,4 +1,9 @@
 class ServiceRepository < ROM::Repository::Root
+  include Import[
+    'persistence.relations.volgaspot_services',
+    'persistence.relations.volgaspot_tariffs'
+  ]
+
   root :services
 
   auto_struct false
@@ -45,13 +50,5 @@ class ServiceRepository < ROM::Repository::Root
 
   def get_tariff_with_services(service_ids)
     services.main.by_id(service_ids).map_with(:tariffs_mapper).to_a
-  end
-
-  def volgaspot_services
-    ROM.env.relations[:volgaspot_services]
-  end
-
-  def volgaspot_tariffs
-    ROM.env.relations[:volgaspot_tariffs]
   end
 end

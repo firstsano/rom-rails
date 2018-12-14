@@ -1,4 +1,6 @@
 class BalanceOperationRepository < ROM::Repository::Root
+  include Import['persistence.relations.discount_intervals']
+
   root :balance_operations
 
   auto_struct false
@@ -26,9 +28,5 @@ class BalanceOperationRepository < ROM::Repository::Root
 
     grouped_operations = { operations: operations }
     balance_operations.mappers[:balance_operations].call [grouped_operations]
-  end
-
-  def discount_intervals
-    ROM.env.relations[:discount_intervals]
   end
 end
