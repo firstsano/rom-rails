@@ -21,8 +21,6 @@ module Volgaspot
       embedded :services, type: :array do
         attribute :id, from: :service_id
         attribute :name, from: :service_name
-        # TODO: remove fake value
-        attribute(:type) { :internet }
         attribute :link_id, from: :service_link_id
 
         exclude :tariff_name

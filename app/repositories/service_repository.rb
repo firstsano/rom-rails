@@ -13,10 +13,13 @@ class ServiceRepository < ROM::Repository::Root
     link_services = services.additional.by_id(service_ids).map_with(:services_mapper).to_a
     merged_hash = tariff_link.to_hash
     service_ids = tariff_link.services.map &:id
+    service_types = get_service_types_by_services(service_ids)
+
     services = link_services.map do |service|
       next unless service_ids.include?(service.id)
       sss = tariff_link.services.select { |s| s.id == service.id }
-      ss = service.to_hash.merge(sss.first.to_hash)
+      type = service_types.select { |service_type| service_type[:utm5_service_id] == service.id }
+      ss = service.to_hash.merge(sss.first.to_hash).merge(type.first)
       ss.merge({service: ss})
     end.compact
     merged_hash[:services] = services
@@ -36,8 +39,16 @@ class ServiceRepository < ROM::Repository::Root
     RecursiveOpenStruct.new tuple, recurse_over_arrays: true
   end
 
+  def get_service_types_by_services(service_ids)
+    volgaspot_services.base.by_id(service_ids).map_with(:volgaspot_services_mapper).to_a
+  end
+
   def get_tariff_with_services(service_ids)
     services.main.by_id(service_ids).map_with(:tariffs_mapper).to_a
+  end
+
+  def volgaspot_services
+    ROM.env.relations[:volgaspot_services]
   end
 
   def volgaspot_tariffs

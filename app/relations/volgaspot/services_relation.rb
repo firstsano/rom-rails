@@ -20,13 +20,9 @@ module Volgaspot
       add_params('id[]' => id)
     end
 
-    def all
-      add_params(scope: 'all')
-    end
-
     def base
       with_base_path('services')
-        .add_params(expand: 'type')
+        .add_params(expand: 'type', scope: 'all')
     end
   end
 end
