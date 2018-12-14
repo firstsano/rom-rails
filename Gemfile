@@ -5,6 +5,7 @@ ruby '2.5.3'
 
 gem 'blueprinter'
 gem 'bootsnap', '>= 1.1.0', require: false
+gem 'dry-auto_inject'
 gem 'figaro'
 gem 'knock'
 gem 'pg'
