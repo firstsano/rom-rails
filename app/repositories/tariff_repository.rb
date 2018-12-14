@@ -1,9 +1,5 @@
 class TariffRepository < ROM::Repository::Root
-  include Import[
-    'persistence.relations.available_tariffs',
-    'persistence.relations.services',
-    'persistence.relations.volgaspot_tariffs'
-  ]
+  include Import['relations.available_tariffs', 'relations.services', 'relations.volgaspot_tariffs']
 
   root :tariffs
 

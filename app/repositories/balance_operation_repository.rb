@@ -1,5 +1,5 @@
 class BalanceOperationRepository < ROM::Repository::Root
-  include Import['persistence.relations.discount_intervals']
+  include Import['relations.discount_intervals']
 
   root :balance_operations
 

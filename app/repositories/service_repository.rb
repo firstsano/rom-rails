@@ -1,8 +1,5 @@
 class ServiceRepository < ROM::Repository::Root
-  include Import[
-    'persistence.relations.volgaspot_services',
-    'persistence.relations.volgaspot_tariffs'
-  ]
+  include Import['relations.volgaspot_services', 'relations.volgaspot_tariffs']
 
   root :services
 

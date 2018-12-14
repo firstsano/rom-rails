@@ -5,23 +5,23 @@ AppContainer.configure do |container|
     ROM.env
   end
 
-  container.register('persistence.relations.available_tariffs') do
+  container.register('relations.available_tariffs') do
     container['persistence'].relations[:available_tariffs]
   end
 
-  container.register('persistence.relations.services') do
+  container.register('relations.services') do
     container['persistence'].relations[:services]
   end
 
-  container.register('persistence.relations.volgaspot_tariffs') do
+  container.register('relations.volgaspot_tariffs') do
     container['persistence'].relations[:volgaspot_tariffs]
   end
 
-  container.register('persistence.relations.volgaspot_services') do
+  container.register('relations.volgaspot_services') do
     container['persistence'].relations[:volgaspot_services]
   end
 
-  container.register('persistence.relations.discount_intervals') do
+  container.register('relations.discount_intervals') do
     container['persistence'].relations[:discount_intervals]
   end
 end
