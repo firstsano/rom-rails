@@ -11,8 +11,10 @@ module V1
     end
 
     def create
-      return head :bad_request unless params[:tariff_id]
-      is_linked = repo.link_tariff_for_user current_user_session.id, params[:tariff_id]
+      tariff_id = params.dig :tariff_link, :tariff_id
+      return head :bad_request unless tariff_id
+
+      is_linked = repo.link_tariff_for_user current_user_session.id, tariff_id
       return head :unprocessable_entity unless is_linked
 
       head :created
