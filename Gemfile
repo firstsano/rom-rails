@@ -38,6 +38,11 @@ end
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'rspec-rails', '~> 3.8'
+end
+
+group :test do
   gem 'database_cleaner'
+  gem 'faker'
+  gem 'rom-factory'
+  gem 'rspec-rails', '~> 3.8'
 end
