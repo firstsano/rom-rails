@@ -37,6 +37,9 @@ def clean_db
 end
 
 RSpec.configure do |config|
+  # Include factory bot helpers
+  config.include FactoryBot::Syntax::Methods
+
   # Include helpers required for all cases
   config.include(AppContainerHelper)
 

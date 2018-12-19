@@ -3,7 +3,7 @@ module Volgaspot
     gateway :volgaspot
 
     schema(:volgaspot_tariffs) do
-      attribute :id, ::Types::Int
+      attribute :id, ::Types::Strict::Int
       attribute :active_tariff_link, ::Types::Coercible::Hash.schema(
         id: ::Types::Strict::Int,
         tariff_id: ::Types::Strict::Int,
