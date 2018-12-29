@@ -6,6 +6,7 @@ ruby '2.5.3'
 gem 'blueprinter'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dry-auto_inject'
+gem 'dry-validation'
 gem 'exception_notification'
 gem 'figaro'
 gem 'knock'
