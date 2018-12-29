@@ -6,6 +6,7 @@ ruby '2.5.3'
 gem 'blueprinter'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'dry-auto_inject'
+gem 'exception_notification'
 gem 'figaro'
 gem 'knock'
 gem 'pg'
@@ -29,6 +30,7 @@ group :development do
   gem 'capistrano-rails', '~> 1.4', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-touch-linked-files'
+  gem 'letter_opener'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop', '~> 0.60.0', require: false
 end
