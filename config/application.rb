@@ -31,6 +31,19 @@ module Rapi
     config.i18n.available_locales = [:en, :ru]
     config.i18n.default_locale = :ru
 
+    # Configure ActionMailer
+    credentials = Rails.application.credentials
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      authentication: :login,
+      address: credentials.smtp_address,
+      port: 587,
+      user_name: credentials.smtp_username,
+      password: credentials.smtp_password,
+      enable_starttls_auto: true
+    }
+
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
