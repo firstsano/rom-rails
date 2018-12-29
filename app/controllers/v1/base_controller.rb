@@ -3,7 +3,7 @@ module V1
     include Knock::Authenticable
     # include ::ExceptionsHandler
 
-    before_action :authenticate_user_session
+    before_action :authenticate_user_session, :validate_params
 
     respond_to :json
 
@@ -23,6 +23,18 @@ module V1
     # end
 
     private
+
+    def validate_params
+      current_action = params[:action].to_sym
+      return true unless schemas[current_action]
+
+      validation_errors = schemas[current_action].call(params).errors
+      render json: validation_errors, status: :bad_request
+    end
+
+    def schemas
+      {}
+    end
 
     def get_pagination_params
       @page, @per_page = get_filter_params(:page, :per_page)

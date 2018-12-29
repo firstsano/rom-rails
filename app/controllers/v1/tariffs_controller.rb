@@ -12,8 +12,6 @@ module V1
 
     def create
       tariff_id = params.dig :tariff_link, :tariff_id
-      return head :bad_request unless tariff_id
-
       is_linked = repo.link_tariff_for_user current_user_session.id, tariff_id
       return head :unprocessable_entity unless is_linked
 
@@ -28,6 +26,16 @@ module V1
     end
 
     private
+
+    def schemas
+      {
+        create: Dry::Validation.Schema do
+                  required(:tariff_link).schema do
+                    required(:tariff_id).filled.int?
+                  end
+                end
+      }
+    end
 
     def repo
       TariffRepository.new(ROM.env)
