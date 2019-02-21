@@ -3,30 +3,39 @@ module Volgaspot
     gateway :volgaspot
 
     schema(:volgaspot_payments) do
-      attribute :id, ::Types::String
-      attribute :status, ::Types::String
-      attribute :paid, ::Types::Bool
-      attribute :amount, ::Types::Strict::Hash.schema(
-        attribute :value, ::Types::String
-        attribute :currency, ::Types::String
-      )
-      attribute :confirmation, ::Types::Coercible::Hash.schema(
-        attribute :type, ::Types::Strict::String
-        attribute :enforce, ::Types::Bool.optional
-        attribute :return_url, ::Types::String.optional
-        attribute :confirmation_url, ::Types::String.optional
-      )
+      attribute :id, ::Types::Strict::String
+      attribute :status, ::Types::Strict::String
+      attribute :paid, ::Types::Strict::Bool
+      attribute :payment_method, ::Types::Strict::Hash
       attribute :created_at, ::Types::Form::DateTime
-      attribute :description, ::Types::String
-      attribute :metadata, ::Types::Coercible::Hash
-      attribute :payment_method, ::Types::Strict::Hash.schema(
-        attribute :type, ::Types::Strict::String
-        attribute :id, ::Types::Strict::String
-        attribute :saved, ::Types::Strict::Bool
-        attribute :title, ::Types::String
-        attribute :login, ::Types::Strict::String
+      attribute :test, ::Types::Strict::Bool
+
+      attribute :amount, ::Types::Strict::Hash.schema(
+        value: ::Types::String,
+        currency: ::Types::String
       )
-      attribute :test, ::Types::Bool
+
+      attribute :confirmation, ::Types::Coercible::Hash.schema(
+        type: ::Types::Strict::String,
+        enforce: ::Types::Bool.optional,
+        return_url: ::Types::String.optional,
+        confirmation_url: ::Types::String.optional,
+      )
+
+      attribute :cancellation_details, ::Types::Coercible::Hash.schema(
+        party: ::Types::Strict::String,
+        reason: ::Types::Strict::String
+      )
+
+      attribute :authorization_details, ::Types::Coercible::Hash.schema(
+        rrn: ::Types::String,
+        auth_code: ::Types::String
+      )
+
+      attribute :description, ::Types::String.optional
+      attribute :captured_at, ::Types::Form::DateTime.optional
+      attribute :expires_at, ::Types::Form::DateTime.optional
+      attribute :metadata, ::Types::Coercible::Hash
 
       primary_key :id
     end
