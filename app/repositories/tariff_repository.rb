@@ -40,7 +40,7 @@ class TariffRepository < ROM::Repository::Root
 
   def get_tariffs_with_services(tariff_id, service_ids = nil)
     relation = tariffs.by_id(tariff_id).map_with(:tariffs_mapper)
-                              .combine(:services).node(:services, &:main)
+                      .combine(:services).node(:services, &:main)
     relation.node(:services) { |services| services.by_id(service_ids) } if service_ids
     relation
   end
