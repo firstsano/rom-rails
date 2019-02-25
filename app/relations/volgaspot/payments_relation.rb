@@ -39,5 +39,13 @@ module Volgaspot
 
       primary_key :id
     end
+
+    def by_user(id)
+      with_path(id.to_s)
+    end
+
+    def base
+      with_base_path('payments')
+    end
   end
 end
