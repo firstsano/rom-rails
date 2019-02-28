@@ -28,8 +28,9 @@ module V1
       current_action = params[:action].to_sym
       return true unless schemas[current_action]
 
-      validation_errors = schemas[current_action].call(params).errors
-      render json: validation_errors, status: :bad_request
+      unsafe_params = params.to_unsafe_h
+      validation_errors = schemas[current_action].call(unsafe_params).errors
+      render json: validation_errors, status: :bad_request unless validation_errors.empty?
     end
 
     def schemas
