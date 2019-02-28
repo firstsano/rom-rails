@@ -1,14 +1,14 @@
 class PaymentRepository < ROM::Repository::Root
-  root :volgaspot_payments
+  root :yandex_till_payments
 
   struct_namespace Rapi::Entities
+  auto_struct false
 
   def payment_by_id(id)
-    volgaspot_payments.by_id(id).one
+    root.by_id(id).one
   end
 
-  def create_payment_for_user(id)
-    response = volgaspot_payments.command(:create).call id
-    response[:success] and response[:data]
+  def create_payment_for_user(user_id, payment_params)
+    response = root.map_to(Payment).command(:create).call user_id, payment_params
   end
 end

@@ -3,23 +3,24 @@ require 'dry/initializer'
 require 'uri'
 require 'net/http'
 
-class RequestHandler
+class BaseRequestHandler
   extend Dry::Initializer
   include ::Exceptions::RemoteServer
 
   option :inflector, default: proc { Dry::Inflector.new }
-  option :base_headers, default: proc { { 'Content-Type': 'application/json' } }
 
   def call(dataset)
     uri = dataset.uri
     method = inflector.classify dataset.request_method
 
     http = Net::HTTP.new uri.host, uri.port
+    http.use_ssl = (uri.scheme == 'https')
     request_klass = Net::HTTP.const_get method
-    request = request_klass.new uri.request_uri
+    request = request_klass.new uri
 
-    headers = base_headers.merge dataset.headers
-    headers.each_with_object(request) do |(header, value), req|
+    authenticate request
+
+    dataset.headers.each_with_object(request) do |(header, value), req|
       req[header.to_s] = value
     end
 
@@ -30,7 +31,13 @@ class RequestHandler
     begin
       http.request(request)
     rescue StandardError
-      raise RequestError, $ERROR_INFO
+      raise Request::Error, $ERROR_INFO
     end
+  end
+
+  private
+
+  def authenticate(request)
+    request
   end
 end

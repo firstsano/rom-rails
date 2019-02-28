@@ -1,26 +1,11 @@
 module V1
   class BaseController < ::ActionController::API
-    include Knock::Authenticable
-    # include ::ExceptionsHandler
+    include ::Knock::Authenticable
+    include ::Exceptions::ExceptionsHandler
 
     before_action :authenticate_user_session, :validate_params
 
     respond_to :json
-
-    # def render(resource)
-    #   super json: resource, **render_options
-    # end
-
-    # def prepare_date_range
-    #   from, to = get_filter_params(:from, :to)
-    #   from = from&.to_datetime || DateTime.now
-    #   to = to&.to_datetime
-    #   @date_range = DateTimeRange.generate start: from, stop: to
-    # end
-    #
-    # def render_options
-    #   { include: params[:include]&.underscore }
-    # end
 
     private
 
