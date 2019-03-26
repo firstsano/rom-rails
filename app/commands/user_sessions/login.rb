@@ -7,10 +7,10 @@ module UserSessions
     def execute(login, password)
       login_params = { login: login, password: password }
       relation
-          .dataset
-          .with_base_path('/customer-sessions/login')
-          .with_options(request_method: :put, params: login_params)
-          .response
+        .dataset
+        .with_base_path('/customer-sessions/login')
+        .with_options(request_method: :put, params: login_params)
+        .response
     end
   end
 end

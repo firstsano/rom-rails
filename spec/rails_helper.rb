@@ -1,7 +1,7 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 require 'spec_helper'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -33,7 +33,7 @@ def clean_strategy
 end
 
 def clean_db
-  DatabaseCleaner[:sequel, connection: connection].clean_with *clean_strategy
+  DatabaseCleaner[:sequel, connection: connection].clean_with(*clean_strategy)
 end
 
 RSpec.configure do |config|

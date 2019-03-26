@@ -18,8 +18,8 @@ module Exceptions
 
     private
 
-    def request_unsuccessful(e)
-      render json: { description: e.message },
+    def request_unsuccessful(exception)
+      render json: { description: exception.message },
              status: :internal_server_error
     end
   end

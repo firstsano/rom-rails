@@ -1,6 +1,6 @@
 module V1
   class BalanceOperationsController < BaseController
-    before_action :get_pagination_params, only: :index
+    before_action :load_pagination_params, only: :index
 
     def index
       account = current_user_session.account

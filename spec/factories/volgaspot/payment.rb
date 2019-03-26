@@ -39,7 +39,7 @@ FactoryBot.define do
             last4: Faker::Number.number(4),
             expiry_year: year,
             expiry_month: month,
-            card_type: Faker::Lorem.word,
+            card_type: Faker::Lorem.word
           }
         }
       end

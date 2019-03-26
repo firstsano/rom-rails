@@ -17,7 +17,7 @@ class Payment < ::ROM::Struct
     type: ::Types::Strict::String,
     enforce: ::Types::Bool.optional,
     return_url: ::Types::String.optional,
-    confirmation_url: ::Types::String.optional,
+    confirmation_url: ::Types::String.optional
   ).default({})
 
   attribute :cancellation_details, ::Types::Coercible::Hash.schema(

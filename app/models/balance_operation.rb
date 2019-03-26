@@ -1,7 +1,6 @@
 class BalanceOperation < ::ROM::Struct
   constructor_type :schema
 
-
   attribute :id, ::Types::Int
   attribute :time, ::Types::DateTime
   attribute :balance_before, ::Types::Float

@@ -17,7 +17,7 @@ ROM::Rails::Railtie.configure do |config|
     uri: ENV.fetch('yandex_till_api'),
     headers: {
       Accept: 'application/json',
-      'Content-Type' => 'application/json',
+      'Content-Type' => 'application/json'
     },
     request_handler: Gateways::YandexTill::RequestHandler.new(username, password),
     response_handler: Gateways::YandexTill::ResponseHandler.new

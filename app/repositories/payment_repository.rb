@@ -9,6 +9,6 @@ class PaymentRepository < ROM::Repository::Root
   end
 
   def create_payment_for_user(user_id, payment_params)
-    response = root.map_to(Payment).command(:create).call user_id, payment_params
+    root.map_to(Payment).command(:create).call user_id, payment_params
   end
 end

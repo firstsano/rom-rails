@@ -6,6 +6,6 @@ class PromisedPaymentsMapper < ROM::Mapper
   model OpenStruct
 
   attribute(:last_promised_payment_date) do |timestamp|
-    Time.at(timestamp).to_datetime if timestamp and (timestamp > 0)
+    Time.at(timestamp).to_datetime if timestamp&.positive?
   end
 end

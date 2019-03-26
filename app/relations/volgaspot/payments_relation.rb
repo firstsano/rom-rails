@@ -19,7 +19,7 @@ module Volgaspot
         type: ::Types::Strict::String,
         enforce: ::Types::Bool.optional,
         return_url: ::Types::String.optional,
-        confirmation_url: ::Types::String.optional,
+        confirmation_url: ::Types::String.optional
       )
 
       attribute :cancellation_details, ::Types::Coercible::Hash.schema(

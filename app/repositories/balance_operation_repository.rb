@@ -9,10 +9,10 @@ class BalanceOperationRepository < ROM::Repository::Root
   # TODO: to think if this can be refactored as mapper without first creating an object
   def balance_operations_by_user(id, page:, per_page:)
     required_interval = discount_intervals
-      .by_account(id)
-      .page(page)
-      .per_page(per_page)
-      .to_a
+                        .by_account(id)
+                        .page(page)
+                        .per_page(per_page)
+                        .to_a
     return [] if required_interval.empty?
 
     to = required_interval.first[:date_interval].end_of_day.to_i

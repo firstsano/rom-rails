@@ -7,11 +7,11 @@ module Volgaspot
 
       def execute(id)
         relation
-            .dataset
-            .with_base_path('/users')
-            .with_path("#{id}/unlink-tariff")
-            .with_options(request_method: :put)
-            .response
+          .dataset
+          .with_base_path('/users')
+          .with_path("#{id}/unlink-tariff")
+          .with_options(request_method: :put)
+          .response
       end
     end
   end

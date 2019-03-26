@@ -14,18 +14,19 @@ class ServiceRepository < ROM::Repository::Root
     service_ids = tariff_link.services.map(&:id)
     link_services = services.additional.by_id(service_ids).map_with(:services_mapper).to_a
     merged_hash = tariff_link.to_hash
-    service_ids = tariff_link.services.map &:id
+    service_ids = tariff_link.services.map(&:id)
     service_types = get_service_types_by_services(service_ids)
 
     services = link_services.map do |service|
       next unless service_ids.include?(service.id)
+
       sss = tariff_link.services.select { |s| s.id == service.id }
       type = service_types.select { |service_type| service_type[:utm5_service_id] == service.id }
       ss = service.to_hash.merge(sss.first.to_hash).merge(type.first)
-      ss.merge({service: ss})
+      ss.merge({ service: ss })
     end.compact
     merged_hash[:services] = services
-    merged_hash[:services].map { |s|  Volgaspot::Service.new(s) }
+    merged_hash[:services].map { |s| Volgaspot::Service.new(s) }
   end
 
   private
@@ -33,8 +34,8 @@ class ServiceRepository < ROM::Repository::Root
   # TODO: find a way for mapper to skip empty values and call it here
   def find_tariff_link_by_user(id)
     raw_tuple = volgaspot_tariff_links
-                    .base.by_user(id)
-                    .one
+                .base.by_user(id)
+                .one
     return false if raw_tuple[:services].empty?
 
     tuple = volgaspot_tariff_links.mappers[:volgaspot_tariff_links_mapper].call([raw_tuple]).first

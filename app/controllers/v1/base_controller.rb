@@ -22,7 +22,7 @@ module V1
       {}
     end
 
-    def get_pagination_params
+    def load_pagination_params
       @page, @per_page = get_filter_params(:page, :per_page)
       @page ||= 1
       @per_page ||= 10
@@ -30,6 +30,7 @@ module V1
 
     def get_filter_params(*attributes)
       return Array.new(attributes.count) unless params[:filter]
+
       params[:filter].values_at(*attributes)
     end
   end

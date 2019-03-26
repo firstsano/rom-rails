@@ -28,7 +28,7 @@ module Rapi
     # the framework and any gems in your application.
 
     # Set up locales
-    config.i18n.available_locales = [:en, :ru]
+    config.i18n.available_locales = %i[en ru]
     config.i18n.default_locale = :ru
 
     # Configure ActionMailer

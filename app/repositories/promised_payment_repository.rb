@@ -17,7 +17,6 @@ class PromisedPaymentRepository < ROM::Repository::Root
 
   def create_promised_payment_for_user(id)
     response = promised_payments.command(:create).call id
-    response[:success] and response[:data]
+    response[:success] && response[:data]
   end
 end
-
