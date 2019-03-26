@@ -4,24 +4,19 @@ module Volgaspot
 
     schema(:volgaspot_tariffs) do
       attribute :id, ::Types::Strict::Int
-      attribute :active_tariff_link, ::Types::Coercible::Hash.schema(
-        id: ::Types::Strict::Int,
-        tariff_id: ::Types::Strict::Int,
-        discount_period_id: ::Types::Strict::Int,
-        link_date: ::Types::Int
-      )
-      attribute :services, ::Types::Coercible::Hash.constructor(&:values)
+      attribute :link_with_admin_confirm, ::Types::Form::Bool
+      attribute :speed, ::Types::Coercible::String
 
       primary_key :id
     end
 
-    def by_user(id)
-      with_path(id.to_s)
+    def by_ids(ids)
+      id_query = Array(ids).to_s
+      add_params 'id' => id_query
     end
 
     def base
-      with_base_path('users')
-        .add_params(expand: 'active_tariff_link,services')
+      with_base_path 'tariffs'
     end
   end
 end

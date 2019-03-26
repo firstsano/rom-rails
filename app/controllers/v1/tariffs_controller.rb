@@ -2,7 +2,7 @@ module V1
   class TariffsController < BaseController
     def index
       tariffs = repo.tariffs_by_user current_user_session.id
-      respond_with Volgaspot::TariffBlueprint.render(tariffs)
+      respond_with Volgaspot::TariffLinkBlueprint.render(tariffs)
     end
 
     def available

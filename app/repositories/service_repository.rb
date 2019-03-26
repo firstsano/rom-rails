@@ -1,5 +1,5 @@
 class ServiceRepository < ROM::Repository::Root
-  include Import['relations.volgaspot_services', 'relations.volgaspot_tariffs']
+  include Import['relations.volgaspot_services', 'relations.volgaspot_tariff_links']
 
   root :services
 
@@ -32,12 +32,12 @@ class ServiceRepository < ROM::Repository::Root
 
   # TODO: find a way for mapper to skip empty values and call it here
   def find_tariff_link_by_user(id)
-    raw_tuple = volgaspot_tariffs
+    raw_tuple = volgaspot_tariff_links
                     .base.by_user(id)
                     .one
     return false if raw_tuple[:services].empty?
 
-    tuple = volgaspot_tariffs.mappers[:volgaspot_tariffs_mapper].call([raw_tuple]).first
+    tuple = volgaspot_tariff_links.mappers[:volgaspot_tariff_links_mapper].call([raw_tuple]).first
     RecursiveOpenStruct.new tuple, recurse_over_arrays: true
   end
 

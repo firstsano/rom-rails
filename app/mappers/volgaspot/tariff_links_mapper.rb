@@ -1,8 +1,8 @@
 module Volgaspot
-  class TariffsMapper < ROM::Mapper
-    relation :volgaspot_tariffs
+  class TariffLinksMapper < ROM::Mapper
+    relation :volgaspot_tariff_links
 
-    register_as :volgaspot_tariffs_mapper
+    register_as :volgaspot_tariff_links_mapper
 
     step do
       exclude :id

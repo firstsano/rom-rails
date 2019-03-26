@@ -1,7 +1,7 @@
 module Volgaspot
-  module Tariffs
+  module TariffLinks
     class Create < ROM::Commands::Create[:http]
-      relation :volgaspot_tariffs
+      relation :volgaspot_tariff_links
       register_as :create
       result :one
 

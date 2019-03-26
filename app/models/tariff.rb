@@ -3,6 +3,8 @@ class Tariff < ::ROM::Struct
 
   attribute :id, ::Types::Strict::Int
   attribute :name, ::Types::Strict::String
+  attribute :link_with_admin_confirm, ::Types::Bool
+  attribute :speed, ::Types::String
   attribute :description, ::Types::Strict::String
   attribute :services, ::Types::Strict::Array.of(Service).default([])
 

@@ -1,5 +1,10 @@
 class TariffRepository < ROM::Repository::Root
-  include Import['relations.available_tariffs', 'relations.services', 'relations.volgaspot_tariffs']
+  include Import[
+    'relations.available_tariffs',
+    'relations.services',
+    'relations.volgaspot_tariffs',
+    'relations.volgaspot_tariff_links'
+  ]
 
   root :tariffs
 
@@ -10,39 +15,53 @@ class TariffRepository < ROM::Repository::Root
     tariff_link = find_tariff_link_by_user id
     return [] unless tariff_link
 
-    tariff = get_tariffs_with_services(tariff_link.tariff.id, tariff_link.services.map(&:id)).one
-    combined_data = merge_tariff_data tariff_link, tariff
-    combined_data.map { |s|  Volgaspot::Tariff.new(s) }
+    tariff_data = get_tariff_data tariff_link.tariff.id, tariff_link.services.map(&:id)
+    combined_data = merge_tariff_data tariff_link, tariff_data.first
+    combined_data.map { |s|  Volgaspot::TariffLink.new(s) }
   end
 
   def available_tariffs_for_user(id)
     tariff_ids = get_available_tariffs_for_user(id).map { |el| el[:id] }
     return [] if tariff_ids.empty?
 
-    get_tariffs_with_services(tariff_ids).to_a
+    get_tariff_data tariff_ids
   end
 
   def unlink_tariff_for_user(id)
-    response = volgaspot_tariffs.command(:delete).call id
+    response = volgaspot_tariff_links.command(:delete).call id
     response[:success] and response[:data]
   end
 
   def link_tariff_for_user(id, tariff_id)
-    response = volgaspot_tariffs.command(:create).call id, tariff_id
+    response = volgaspot_tariff_links.command(:create).call id, tariff_id
     response[:success]
   end
 
   private
 
+  def get_tariff_data(tariff_ids, service_ids = nil)
+    volgaspot_data_thread = Thread.new { get_volgaspot_tariff_data(tariff_ids).to_a }
+    utm_tariff_data = get_utm_tariff_data(tariff_ids, service_ids).to_a
+    volgaspot_tariff_data = volgaspot_data_thread.join.value
+    utm_tariff_data.each do |utm_tariff|
+      volgaspot_tariff = volgaspot_tariff_data.find { |volgaspot_tariff| volgaspot_tariff[:id] == utm_tariff[:id] }
+      utm_tariff.merge! volgaspot_tariff
+    end
+    TariffsMapper.build.call utm_tariff_data
+  end
+
   def get_available_tariffs_for_user(id)
     available_tariffs.base.by_user(id).to_a
   end
 
-  def get_tariffs_with_services(tariff_id, service_ids = nil)
-    relation = tariffs.by_id(tariff_id).map_with(:tariffs_mapper)
-                      .combine(:services).node(:services, &:main)
+  def get_utm_tariff_data(tariff_ids, service_ids = nil)
+    relation = tariffs.by_id(tariff_ids).combine(:services).node(:services, &:main)
     relation.node(:services) { |services| services.by_id(service_ids) } if service_ids
     relation
+  end
+
+  def get_volgaspot_tariff_data(tariff_ids)
+    volgaspot_tariffs.base.by_ids tariff_ids
   end
 
   # TODO: refactor using mapper
@@ -63,12 +82,12 @@ class TariffRepository < ROM::Repository::Root
 
   # TODO: find a way for mapper to skip empty values and call it here
   def find_tariff_link_by_user(id)
-    raw_tuple = volgaspot_tariffs
+    raw_tuple = volgaspot_tariff_links
       .base.by_user(id)
       .one
     return false if raw_tuple[:active_tariff_link].empty?
 
-    tuple = volgaspot_tariffs.mappers[:volgaspot_tariffs_mapper].call([raw_tuple]).first
+    tuple = Volgaspot::TariffLinksMapper.build.call([raw_tuple]).first
     RecursiveOpenStruct.new tuple, recurse_over_arrays: true
   end
 end

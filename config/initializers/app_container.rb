@@ -13,6 +13,10 @@ AppContainer.configure do |container|
     container['persistence'].relations[:services]
   end
 
+  container.register('relations.volgaspot_tariff_links') do
+    container['persistence'].relations[:volgaspot_tariff_links]
+  end
+
   container.register('relations.volgaspot_tariffs') do
     container['persistence'].relations[:volgaspot_tariffs]
   end

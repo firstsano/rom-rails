@@ -1,7 +1,7 @@
 module Volgaspot
-  module Tariffs
+  module TariffLinks
     class Delete < ROM::Commands::Delete[:http]
-      relation :volgaspot_tariffs
+      relation :volgaspot_tariff_links
       register_as :delete
       result :one
 

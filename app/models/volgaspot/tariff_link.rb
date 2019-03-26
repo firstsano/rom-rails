@@ -1,12 +1,13 @@
 module Volgaspot
-  class Tariff < ::ROM::Struct
+  class TariffLink < ::ROM::Struct
     attribute :discount_period_id, ::Types::Strict::Int
     attribute :link_id, ::Types::Strict::Int
     attribute :link_date, ::Types::Int
     attribute :tariff, ::Tariff
     attribute :services, ::Types::Strict::Array.of(Volgaspot::Service).default([])
 
-    delegate :id, :name, :cost, :cost_per_day, :description, to: :tariff
+    delegate :id, :name, :cost, :cost_per_day, :description,
+             :link_with_admin_confirm, :speed, to: :tariff
 
     def cost
       services.inject(0) { |sum, service| sum + service.cost }

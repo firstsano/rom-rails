@@ -1,5 +1,5 @@
 module Volgaspot
-  class TariffBlueprint < ::TariffBlueprint
+  class TariffLinkBlueprint < ::TariffBlueprint
     field :link_id
     # TODO: add format for date time:
     # field :link_date, datetime_format: "%m/%d/%Y"
