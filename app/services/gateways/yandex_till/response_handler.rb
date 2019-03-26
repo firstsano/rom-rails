@@ -5,8 +5,7 @@ module Gateways
     class ResponseHandler
       include ::Exceptions::RemoteServer
 
-      # def call(response, dataset)
-      def call(response)
+      def call(response, dataset)
         guard_from_invalid_request response
 
         parsed_response = JSON.parse(response.body, symbolize_names: true)
