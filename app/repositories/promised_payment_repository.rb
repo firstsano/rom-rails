@@ -3,7 +3,10 @@ class PromisedPaymentRepository < ROM::Repository::Root
 
   # Though it's not necessary for current version of
   # rom-http, the behaviour will change in future, and
-  # it's better to use `auto_struct false` now
+  # it's better to use `auto_struct false` now.
+  # Preventing autostruct removes unnecessary step of
+  # response processing, by default it
+  # works as: Hash -> Struct -> Hash
   auto_struct false
   struct_namespace Rapi::Entities
 
