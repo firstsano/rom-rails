@@ -16,8 +16,8 @@ module Volgaspot
       primary_key :id
     end
 
-    def by_id(id)
-      add_params('id[]' => id)
+    def by_ids(ids)
+      add_params 'id' => Array(ids).to_s
     end
 
     def base

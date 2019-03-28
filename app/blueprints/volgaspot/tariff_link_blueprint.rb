@@ -1,10 +1,14 @@
 module Volgaspot
-  class TariffLinkBlueprint < ::TariffBlueprint
-    field :link_id
+  class TariffLinkBlueprint < ::Blueprinter::Base
+    identifier :id
+
+    fields :name, :description, :cost, :cost_per_day,
+           :link_with_admin_confirm, :speed, :link_id
+
     # TODO: add format for date time:
     # field :link_date, datetime_format: "%m/%d/%Y"
     field :link_date
 
-    association :services, blueprint: Volgaspot::ServiceBlueprint
+    association :service_links, blueprint: Volgaspot::ServiceLinkBlueprint
   end
 end

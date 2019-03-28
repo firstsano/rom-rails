@@ -11,8 +11,7 @@ module Volgaspot
     end
 
     def by_ids(ids)
-      id_query = Array(ids).to_s
-      add_params 'id' => id_query
+      add_params 'id' => Array(ids).to_s
     end
 
     def base

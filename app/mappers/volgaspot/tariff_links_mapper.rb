@@ -33,7 +33,6 @@ module Volgaspot
       ungroup :services do
         attribute :id
         attribute :name
-        attribute :type
       end
     end
 
@@ -45,8 +44,23 @@ module Volgaspot
       group :services do
         attribute :id
         attribute :name
-        attribute :type
         attribute :link_ids
+      end
+    end
+
+    step do
+      wrap :tariff do
+        attribute :service_links_data, from: :services
+      end
+    end
+
+    step do
+      unwrap :tariff do
+        attribute :id
+        attribute :link_id
+        attribute :link_date
+        attribute :service_links_data
+        attribute :discount_period_id
       end
     end
   end

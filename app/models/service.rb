@@ -4,6 +4,7 @@ class Service < ::ROM::Struct
   attribute :id, ::Types::Strict::Int
   attribute :name, ::Types::Strict::String
   attribute :type, ::Types::String
+  attribute :type_name, ::Types::String
   attribute :description, ::Types::Strict::String
   attribute :cost, ::Types::Strict::Float
 

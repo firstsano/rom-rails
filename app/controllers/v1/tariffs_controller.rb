@@ -38,7 +38,7 @@ module V1
     end
 
     def repo
-      TariffRepository.new(ROM.env)
+      TariffLinkRepository.new(ROM.env)
     end
   end
 end

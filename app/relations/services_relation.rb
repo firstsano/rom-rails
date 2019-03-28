@@ -14,6 +14,10 @@ class ServicesRelation < ::ROM::Relation[:sql]
       .select_append(:cost)
   end
 
+  def ids
+    select(:id).to_a.map { |row| row[:id] }
+  end
+
   def by_id(required_id)
     where { id =~ required_id }
   end

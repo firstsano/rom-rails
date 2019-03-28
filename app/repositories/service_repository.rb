@@ -1,52 +1,51 @@
 class ServiceRepository < ROM::Repository::Root
-  include Import['relations.volgaspot_services', 'relations.volgaspot_tariff_links']
+  include Import[
+    'relations.volgaspot_services',
+    'relations.volgaspot_tariff_links',
+    'mappers.services_mapper',
+    'mappers.volgaspot_services_mapper'
+  ]
 
   root :services
 
   auto_struct false
   struct_namespace Rapi::Entities
 
-  # TODO: refactor using mapper
-  def services_by_user(id)
-    tariff_link = find_tariff_link_by_user id
-    return [] unless tariff_link
+  def additional_services_by_ids(ids)
+    additional_service_ids = services.additional.by_id(ids).ids
+    get_services additional_service_ids
+  end
 
-    service_ids = tariff_link.services.map(&:id)
-    link_services = services.additional.by_id(service_ids).map_with(:services_mapper).to_a
-    merged_hash = tariff_link.to_hash
-    service_ids = tariff_link.services.map(&:id)
-    service_types = get_service_types_by_services(service_ids)
-
-    services = link_services.map do |service|
-      next unless service_ids.include?(service.id)
-
-      sss = tariff_link.services.select { |s| s.id == service.id }
-      type = service_types.select { |service_type| service_type[:utm5_service_id] == service.id }
-      ss = service.to_hash.merge(sss.first.to_hash).merge(type.first)
-      ss.merge({ service: ss })
-    end.compact
-    merged_hash[:services] = services
-    merged_hash[:services].map { |s| Volgaspot::Service.new(s) }
+  def services_by_ids(ids)
+    main_service_ids = services.main.by_id(ids).ids
+    get_services main_service_ids
   end
 
   private
 
-  # TODO: find a way for mapper to skip empty values and call it here
-  def find_tariff_link_by_user(id)
-    raw_tuple = volgaspot_tariff_links
-                .base.by_user(id)
-                .one
-    return false if raw_tuple[:services].empty?
-
-    tuple = volgaspot_tariff_links.mappers[:volgaspot_tariff_links_mapper].call([raw_tuple]).first
-    RecursiveOpenStruct.new tuple, recurse_over_arrays: true
+  def get_services(ids)
+    volgaspot_data_thread = Thread.new { volgaspot_service_data ids }
+    utm_service_data = utm_service_data ids
+    volgaspot_service_data = volgaspot_data_thread.join.value
+    merge_service_data utm_service_data, volgaspot_service_data
+    services_mapper.call utm_service_data
   end
 
-  def get_service_types_by_services(service_ids)
-    volgaspot_services.base.by_id(service_ids).map_with(:volgaspot_services_mapper).to_a
+  def utm_service_data(ids)
+    services.by_id(ids).to_a
   end
 
-  def get_tariff_with_services(service_ids)
-    services.main.by_id(service_ids).map_with(:tariffs_mapper).to_a
+  def volgaspot_service_data(ids)
+    tuples = volgaspot_services.base.by_ids(ids).to_a
+    volgaspot_services_mapper.call tuples
+  end
+
+  def merge_service_data(source, *additional_sources)
+    source.each do |service|
+      Array(additional_sources).each do |additional_source|
+        additional_data = additional_source.find { |as| as[:id] == service[:id] }
+        service.merge! additional_data if additional_data
+      end
+    end
   end
 end

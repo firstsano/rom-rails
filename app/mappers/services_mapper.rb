@@ -9,6 +9,8 @@ class ServicesMapper < ROM::Mapper
   attribute :name, from: :service_name
   attribute(:description, from: :comment) { |desc| sanitize desc }
   attribute :cost
+  attribute :type
+  attribute :type_name
 
   def sanitize(description)
     Sanitize.fragment(description)
