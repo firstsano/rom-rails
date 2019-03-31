@@ -33,7 +33,6 @@ module Rapi
 
     # Configure ActionMailer
     credentials = Rails.application.credentials
-
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
       authentication: :login,

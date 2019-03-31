@@ -61,7 +61,7 @@ Rails.application.configure do
   # Use exception notification
   config.middleware.use ExceptionNotification::Rack,
                         email: {
-                          email_prefix: "[RAPI ERROR] ",
+                          email_prefix: "[RAPI STAGING] ",
                           sender_address: "<no-reply@vgg.ru>",
                           exception_recipients: ENV['exception_recipients'].split
                         }
