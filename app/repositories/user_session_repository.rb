@@ -6,6 +6,8 @@ class UserSessionRepository < ROM::Repository::Root
 
   def login(login:, password:)
     response = user_sessions.command(:login).call login, password
-    OpenStruct.new response
+    return false unless response[:success]
+
+    OpenStruct.new response[:data]
   end
 end

@@ -9,6 +9,9 @@ class PaymentRepository < ROM::Repository::Root
   end
 
   def create_payment_for_account(account, token, amount)
-    root.map_to(Payment).command(:create).call account, token, amount
+    response =  root.command(:create).call account, token, amount
+    return false unless response[:success]
+
+    Payment.new response[:data]
   end
 end

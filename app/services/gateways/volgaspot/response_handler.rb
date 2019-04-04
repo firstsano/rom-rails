@@ -10,7 +10,7 @@ module Gateways
 
         parsed_response = JSON.parse(response.body, symbolize_names: true)
         if %i[post put patch].include?(dataset.request_method)
-          parsed_response = parsed_response[:data] unless parsed_response[:data].nil?
+          # parsed_response = parsed_response[:data] unless parsed_response[:data].nil?
           setup_response parsed_response
         else
           raise Request::Unsuccessful, parsed_response[:data][:message] unless parsed_response[:success]
