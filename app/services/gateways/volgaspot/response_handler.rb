@@ -10,6 +10,7 @@ module Gateways
 
         parsed_response = JSON.parse(response.body, symbolize_names: true)
         if %i[post put patch].include?(dataset.request_method)
+          parsed_response = parsed_response[:data] unless parsed_response[:data].nil?
           setup_response parsed_response
         else
           raise Request::Unsuccessful, parsed_response[:data][:message] unless parsed_response[:success]
@@ -25,6 +26,9 @@ module Gateways
         raise Request::NotFound, $ERROR_INFO if response.code.to_i == not_found_code
 
         raise Request::Error, $ERROR_INFO unless response&.body
+
+        parsed_response = JSON.parse(response.body, symbolize_names: true)
+        raise Request::Unsuccessful, parsed_response[:data] if response.code.to_i >= 400
       end
 
       # Process edge cases:
