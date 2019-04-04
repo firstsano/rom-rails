@@ -5,7 +5,9 @@ module V1
     end
 
     def create
-      payment = repo.create_payment_for_user current_user_session.id, payment_params
+      account = current_user_session.vist_account
+      token, amount = payment_params[:token], payment_params[:amount]
+      payment = repo.create_payment_for_account account, token, amount
       render json: payment, status: :created
     end
 
@@ -16,19 +18,15 @@ module V1
     end
 
     def payment_params
-      params.require(:payment).permit!.to_h
+      params.require(:payment).permit :token, :amount
     end
 
     def schemas
       {
         create: Dry::Validation.Schema do
                   required(:payment).schema do
-                    required(:idempotence_key).filled.str?
-                    required(:payment_token).filled.str?
-                    required(:amount).schema do
-                      required(:value).filled
-                      required(:currency).filled.str?
-                    end
+                    required(:token).filled.str?
+                    required(:amount).filled.float?
                   end
                 end
       }

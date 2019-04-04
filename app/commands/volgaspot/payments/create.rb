@@ -5,20 +5,30 @@ module Volgaspot
       register_as :create
       result :one
 
-      def execute(payment_token, idempotency_key, value, options = {})
-        payment_params = {
-          payment_token: payment_token,
-          idempotency_key: idempotency_key,
-          value: value
+      def execute(account, token, amount)
+        payment_params = payment_params account, token, amount
+        relation.base.with_options(request_method: :post)
+                .add_params(payment_params).dataset
+                .response
+      end
+
+      def payment_params(account, token, amount)
+        payment_options = {
+          account_id: account,
+          payment_token: token,
+          amount: amount
         }
-        relation
-          .dataset
-          .with_base_path('/payments')
-          .with_options(
-            request_method: :put,
-            params: payment_params.merge(options)
-          )
-          .response
+        payment_options
+          .merge(payment_method)
+          .merge(immediate_update)
+      end
+
+      def payment_method
+        { payment_method: Payment::PAYMENT_METHOD_YANDEX }
+      end
+
+      def immediate_update
+        { with_update_status: 1 }
       end
     end
   end
