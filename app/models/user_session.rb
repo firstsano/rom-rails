@@ -1,7 +1,7 @@
 class UserSession
   extend Dry::Initializer
 
-  attr_accessor :id, :login, :account
+  attr_accessor :id, :login, :account, :vist_account
 
   option :session_repo, default: proc { UserSessionRepository.new(ROM.env) }
   option :user_repo, default: proc { UserRepository.new(ROM.env) }
@@ -11,6 +11,7 @@ class UserSession
     @login = login
     @id = options[:id]
     @account = options[:account]
+    @vist_account = options[:vist_account]
   end
 
   # When asking to generate token we first
@@ -34,6 +35,7 @@ class UserSession
 
     @id = user_data.id
     @account = user_data.utm_account
+    @vist_account = user_data.account_id
   end
 
   def to_token_payload
@@ -41,7 +43,8 @@ class UserSession
       user: {
         id: id,
         login: login,
-        account: account
+        account: account,
+        vist_account: vist_account
       }
     }
   end
