@@ -9,6 +9,8 @@ module Volgaspot
     # field :link_date, datetime_format: "%m/%d/%Y"
     field :link_date
 
-    association :service_links, blueprint: Volgaspot::ServiceLinkBlueprint
+    association :service_links,
+                name: :services,
+                blueprint: Volgaspot::ServiceLinkBlueprint
   end
 end
