@@ -15,7 +15,7 @@ module Volgaspot
       def payment_params(account, token, amount)
         payment_options = {
           account_id: account,
-          payment_token: token,
+          token: token,
           amount: amount
         }
         payment_options
