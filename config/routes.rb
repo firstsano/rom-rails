@@ -16,9 +16,9 @@ Rails.application.routes.draw do
       delete :index, action: :destroy, on: :collection
     end
 
-    resources :payments, only: :create
+    resources :payments, only: %i[create show]
 
-    resources :services, only: %i[index]
+    resources :services, only: :index
 
     get '/balance-history' => 'balance_operations#index'
 
