@@ -1,7 +1,6 @@
 module Volgaspot
   class PaymentsRelation < ::ROM::Relation[:http]
     gateway :volgaspot
-    auto_map false
 
     schema(:volgaspot_payments) do
       attribute :id, ::Types::Strict::Int
@@ -25,6 +24,10 @@ module Volgaspot
 
     def by_id(id)
       with_base_path('invoices').with_path id.to_s
+    end
+
+    def base_by_id(id)
+      with_base_path("invoices/#{id}/update-status?expand=payment,ext_payment")
     end
 
     def base

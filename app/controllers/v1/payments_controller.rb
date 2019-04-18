@@ -1,8 +1,8 @@
 module V1
   class PaymentsController < BaseController
     def show
-      payment = repo.payment_by_id params[:id]
-      render json: PaymentBlueprint.render(payment)
+      payment = repo.fetch_payment_by_id params[:id]
+      render json: payment
     end
 
     def create
