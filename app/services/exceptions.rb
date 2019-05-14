@@ -6,6 +6,7 @@ module Exceptions
       class Error < StandardError; end
       class Unsuccessful < StandardError; end
       class NotFound < StandardError; end
+      class Unauthorized < StandardError; end
     end
   end
 

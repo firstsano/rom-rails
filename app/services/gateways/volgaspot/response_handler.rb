@@ -6,7 +6,7 @@ module Gateways
       include ::Exceptions::RemoteServer
 
       def call(response, dataset)
-        guard_from_invalid_request response
+        guard_from_failure_response response
 
         parsed_response = JSON.parse(response.body, symbolize_names: true)
         if %i[post put patch].include?(dataset.request_method)
@@ -21,14 +21,19 @@ module Gateways
 
       private
 
-      def guard_from_invalid_request(response)
-        not_found_code = Rack::Utils::SYMBOL_TO_STATUS_CODE[:not_found]
-        raise Request::NotFound, $ERROR_INFO if response.code.to_i == not_found_code
+      def guard_from_failure_response(response)
+        raise Request::NotFound, $ERROR_INFO if response.code.to_i == status_code(:not_found)
+
+        raise Request::Unauthorized if response.code.to_i == status_code(:unauthorized)
 
         raise Request::Error, $ERROR_INFO unless response&.body
 
         parsed_response = JSON.parse(response.body, symbolize_names: true)
-        raise Request::Unsuccessful, parsed_response[:data] if response.code.to_i >= 400
+        raise Request::Unsuccessful, parsed_response[:data] if response.code.to_i > 400
+      end
+
+      def status_code(status)
+        Rack::Utils::SYMBOL_TO_STATUS_CODE.fetch status
       end
 
       # Process edge cases:

@@ -1,4 +1,5 @@
 class UserSession
+  include ::Exceptions::RemoteServer
   extend Dry::Initializer
 
   attr_accessor :id, :login, :account, :vist_account
@@ -31,11 +32,11 @@ class UserSession
   # Authenticates user
   def authenticate(password)
     user_data = session_repo.login login: login, password: password
-    return false unless user_data
-
     @id = user_data.id
     @account = user_data.utm_account
     @vist_account = user_data.account_id
+  rescue Request::Unauthorized
+    false
   end
 
   def to_token_payload
