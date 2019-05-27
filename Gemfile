@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.3'
+ruby '2.6.1'
 
 gem 'blueprinter'
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -14,7 +14,7 @@ gem 'knock'
 gem 'pg'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 5.2.3'
 gem 'recursive-open-struct'
 gem 'responders'
 gem 'rom-http'
